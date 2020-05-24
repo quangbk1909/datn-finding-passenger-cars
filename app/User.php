@@ -10,6 +10,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $table = "user";
+
     /**
      * The attributes that are mass assignable.
      *
@@ -36,4 +38,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function car(){
+        return $this->hasMany('App\Car','user_id','id');
+    }
+
+    public function organization(){
+        return $this->hasMany('App\Organization','owner','id');
+    }
+
+    public function belongToOrganization(){
+        return $this->belongsTo('App\Organization','organization_id','id');
+    }
+
+    public function userSchedule(){
+        return $this->hasMany('App\UserSchedule','user_id','id');
+    }
 }

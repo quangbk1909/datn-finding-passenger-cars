@@ -13,6 +13,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.home');
+});
+
+Route::get('/search-coach', function () {
+    return view('pages.searching_coach');
+});
+
+
+Route::group(['prefix' => 'coach'], function() {
+
+    Route::get('/search', 'CoachController@searchCoach');
+    Route::get('/{id}', 'CoachController@show');
+
+});
+
+Route::group(['prefix' => 'organization'], function() {
+
+    Route::get('/{id}', 'OrganizationController@show');
+
 });
