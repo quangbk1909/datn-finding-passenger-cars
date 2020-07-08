@@ -12,7 +12,7 @@
 @endsection
 
 @section('content')
-		<section class="title-bar">
+	<section class="title-bar">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6">
@@ -23,7 +23,7 @@
 				<div class="col-md-6">
 					<div class="right-title-text">  
 						<ul>
-							<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+							<li class="breadcrumb-item"><a href="">Trang chủ</a></li>
 							<li class="breadcrumb-item active" aria-current="page">Hãng xe</li>
 						</ul>
 					</div>
@@ -51,17 +51,17 @@
 									<ul>
 										<li>
 											<div class="phone-no" >
-												<a href="#"><span><i class="fas fa-phone"></i></span> {{$organization->hotline}}</a>
+												<a href="organization/{{$organization->id}}"><span><i class="fas fa-phone"></i></span> {{$organization->hotline}}</a>
 											</div>
 										</li>
 										<li>
 											<div class="website" title="Email">
-												<a href="#"><span><i class="fas fa-envelope"></i></span> {{$organization->email}}</a>
+												<a href="organization/{{$organization->id}}"><span><i class="fas fa-envelope"></i></span> {{$organization->email}}</a>
 											</div>										
 										</li>
 										<li>
 											<div class="website" title="{{$organization->address}}">
-												<a href="#"><span><i class="fas fa-map-marker-alt"></i></span> 
+												<a href="organization/{{$organization->id}}"><span><i class="fas fa-map-marker-alt"></i></span> 
 													@if (strlen($organization->address) > 30)
 														{{substr($organization->address, 0,30)}}...
 													@else
@@ -71,8 +71,9 @@
 											</div>										
 										</li>
 										<li>
-											<a href="setting.html" class="setting-btn btn-link"><span><i class="fas fa-cog"></i></span>Setting</a>
+											<a href="organization/management/{{$organization->id}}" class="setting-btn btn-link"><span><i class="fas fa-cog"></i></span>Cài đặt</a>
 										</li>
+										
 									</ul>
 								</div>
 							</div>
@@ -94,13 +95,13 @@
 							<ul class="list-unstyled">
 								<li>
 									@if ($organization->owner->avatar != "")
-										<a href="#"><img style="width: 80px;height: 80px;" src="{{$organization->owner->avatar}}" class="img-responsive" alt="image" title="image"></a>
+										<img style="width: 80px;height: 80px;" src="{{$organization->owner->avatar}}" class="img-responsive" alt="image" title="image">
 									@else 
 										
-										<a href="#"><img style="width: 80px;height: 80px;" src="assets/images/user/avatar/non-avatar.png" class="img-responsive" alt="image" title="image"></a>
+										<img style="width: 80px;height: 80px;" src="assets/images/user/avatar/non-avatar.png" class="img-responsive" alt="image" title="image">
 									@endif
 									<div class="caption  mt-3">
-										<a href="#"><h4 class="font-weight-bold">{{$organization->owner->name}}</h4></a>
+										<h4 class="font-weight-bold">{{$organization->owner->name}}</h4>
 									</div>
 								</li>
 							</ul>					
@@ -113,16 +114,16 @@
 								@foreach($staff as $employee)
 								<li>
 									@if ($employee->avatar != "")
-										<a href="#"><img style="width: 80px;height: 80px;" src="{{$employee->avatar}}" class="img-responsive" alt="image" title="image"></a>
+										<img style="width: 80px;height: 80px;" src="{{$employee->avatar}}" class="img-responsive" alt="image" title="image">
 									@else 
-										<a href="#"><img style="width: 80px;height: 80px;" src="assets/images/user/avatar/non-avatar.png" class="img-responsive" alt="image" title="image"></a>
+										<img style="width: 80px;height: 80px;" src="assets/images/user/avatar/non-avatar.png" class="img-responsive" alt="image" title="image">
 									@endif
 									<div class="caption  mt-3">
-										<a href="#"><h4 class="font-weight-bold">{{$employee->name}}</h4></a>
+										<h4 class="font-weight-bold">{{$employee->name}}</h4>
 									</div>
 								</li>
 								@endforeach
-								<a href="#">Xem hết</a>
+								<a href="organization/management/{{$organization->id}}">Xem hết</a>
 							</ul>					
 						</div>							
 					</div>
@@ -130,7 +131,7 @@
 		
 				</div>	
 				<div class="col-lg-6 col-md-8">
-					@foreach($organization->coach as $coach)
+					@foreach($coachs as $coach)
 						<div class="partner-section">
 							<div class="partner-bar">
 								<div class="partner-topbar">
@@ -176,13 +177,15 @@
 										</ul>
 									</div>
 								</div>
-								<div class="partner-bottombar">
-									<ul class="bottom-partner-links">
-										<li><a href="#" data-toggle="tooltip" data-placement="top" title="Call Now"><i class="fas fa-info-circle"></i>Cập nhật trạng thái</a></li>
-										<li class="line-lr"><a href="#" data-toggle="tooltip" data-placement="top" title="Order Now"><i class="fas fa-edit"></i>Sửa thông tin</a></li>
-										<li><a href="#" data-toggle="tooltip" data-placement="top" title="View Menu"><i class="fas fa-trash-alt"></i>Xóa xe</a></li>
-									</ul>
-								</div>
+								@if ($isStaff)
+									<div class="partner-bottombar">
+										<ul class="bottom-partner-links">
+											<li><a href="#" data-toggle="tooltip" data-placement="top" title="Call Now"><i class="fas fa-info-circle"></i>Cập nhật trạng thái</a></li>
+											<li class="line-lr"><a href="/organization/{{$organization->id}}/coach/update/{{$coach->id}}" data-toggle="tooltip" data-placement="top" title="Order Now"><i class="fas fa-edit"></i>Sửa thông tin</a></li>
+											<li><a href="organization/{{$organization->id}}/coach/delete/{{$coach->id}}" onclick="return confirm('Bạn chắc chắn muốn xóa chuyến xe khỏi hãng?');" data-toggle="tooltip" data-placement="top" title="View Menu"><i class="fas fa-trash-alt"></i>Xóa xe</a></li>
+										</ul>
+									</div>
+								@endif
 							</div>
 						</div>
 				
@@ -190,52 +193,48 @@
 					
 					<div class="main-p-pagination">
 						<nav aria-label="Page navigation example">
-						  <ul class="pagination">
-							<li class="page-item">
-							  <a class="page-link" href="#" aria-label="Previous">
-								<i class="fas fa-chevron-left"></i>
-							  </a>
-							</li>
-							<li class="page-item"><a class="page-link active" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">...</a></li>
-							<li class="page-item"><a class="page-link" href="#">24</a></li>
-							<li class="page-item">
-							  <a class="page-link" href="#" aria-label="Next">
-								<i class="fas fa-chevron-right"></i>
-							  </a>
-							</li>
-						  </ul>
+						  @if(isset($coachs))
+								{{$coachs->appends(request()->input())->links()}}
+							@endif
 						</nav>
+
 					</div>
+
+
 				</div>
-				<div class="col-lg-3 col-md-4">
+				<div class="col-lg-3 col-md-4 ">
 					<div class="mb-3">
-						<form class="form-inline mr-auto">
-						  <input class="form-control mr-sm-2" type="text" placeholder="Tìm xe" aria-label="Search">
+						<form class="form-inline mr-auto" action="organization/{{$organization->id}}/coach/searching" method="GET" enctype="multipart/form-data">
+							
+						  <input class="form-control mr-sm-2" type="text" name="searching" placeholder="Tìm xe" aria-label="Search">
 						  <button class="btn btn-outline-warning btn-rounded btn-sm my-0" type="submit"><i class="text-warning">Search</i></button>
 						</form>
 					</div>
-					<div class="popular-restaurants">
-						<h4>Hãng phổ biến khác </h4>
-						<div class="popular-restaurants-items">
-							<ul class="list-unstyled">
-								@foreach ($othersOrganization as $another)
-									<li>
-										<a href="restaurant_detail.html"><img src="{{$another->logo}}" class="img-responsive" alt="image" title="image"></a>
-										<div class="caption">
-											<a href="restaurant_detail.html"><h4 class="font-weight-bold">{{$another->name}}</h4></a>
-											<p><span><i class="fas fa-phone"></i></span> {{$another->hotline}}</p>
-											<p title="{{$another->address}}"><span><i class="fas fa-map-marker-alt"></i> {{substr($another->address, 0,20)}}...</p>
-										</div>
-									</li>
-								@endforeach
-								
-								
-							</ul>					
-						</div>							
+					<div class="mb-3">
+						<a href="organization/management/{{$organization->id}}" class="btn btn-warning btn-rounded btn-sm my-0" type="submit"><i class="text-light">Thêm chuyến mới</i></a>
 					</div>
-					
+
+					@if (!$isStaff)
+						<div class="popular-restaurants">
+							<h4>Hãng phổ biến khác </h4>	
+							<div class="popular-restaurants-items">
+								<ul class="list-unstyled">
+									@foreach ($othersOrganization as $another)
+										<li>
+											<a href="organization/{{$another->id}}"><img src="{{$another->logo}}" class="img-responsive" alt="image" title="image"></a>
+											<div class="caption">
+												<a href="restaurant_detail.html"><h4 class="font-weight-bold">{{$another->name}}</h4></a>
+												<p><span><i class="fas fa-phone"></i></span> {{$another->hotline}}</p>
+												<p title="{{$another->address}}"><span><i class="fas fa-map-marker-alt"></i> {{substr($another->address, 0,20)}}...</p>
+											</div>
+										</li>
+									@endforeach
+									
+									
+								</ul>					
+							</div>							
+						</div>
+					@endif
 				</div>
 			</div>			
 		</div>

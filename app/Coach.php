@@ -27,6 +27,18 @@ class Coach extends Model
     	return $this->hasMany('App\Rating','coach_id','id');
     }
 
+    public function extendedImage(){
+        return $this->hasMany('App\ExtendedImage','coach_id','id');
+    }
+
+    public function startingProvinceCity(){
+        return $this->belongsTo('App\ProvinceCity','starting_province_city_id','id');
+    }
+
+    public function endProvinceCity(){
+        return $this->belongsTo('App\ProvinceCity','end_province_city_id','id');
+    }
+
     public function getTimeRemaining() {
     	$now = time();
     	$timeRemaining  = PHP_INT_MAX;

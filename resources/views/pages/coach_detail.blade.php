@@ -17,8 +17,9 @@
 				<div class="col-md-6">
 					<div class="right-title-text">  
 						<ul>
-							<li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
-							<li class="breadcrumb-item active" aria-current="page">xe khách</li>
+							<li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+							<li class="breadcrumb-item " aria-current="page">xe khách</li>
+							<li class="breadcrumb-item active" aria-current="page">chi tiết</li>
 						</ul>
 					</div>
 				</div>
@@ -28,100 +29,100 @@
 	<!--title-bar end-->
 	<!--meal-detail-start-->
 	<section class="all-partners">			
-		<div class="container">		
+		<div class="container">	
+			@if (session('success'))
+				<div class="col-md-11 alert alert-success alert-dismissible fade show" role="alert">
+			  	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    	<span aria-hidden="true">&times;</span>
+			 	 </button>
+			 	 {{session('success')}}
+			</div>
+			@endif
+
+			@if ($errors->first())
+				<div class=" col-md-11 alert alert-danger alert-dismissible fade show" role="alert">
+			  	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    	<span aria-hidden="true">&times;</span>
+			 	 </button>
+			 	 {{$errors->first()}}
+			</div>
+			@endif
+
+			@if (session('warning'))
+				<div class=" col-md-11 alert alert-danger alert-dismissible fade show" role="alert">
+			  	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			    	<span aria-hidden="true">&times;</span>
+			 	 </button>
+			 	 {{session('warning')}}
+			</div>
+			@endif	
 			<div class="row">					
 				<div class="col-lg-8 col-md-8">
 					<div id="sync1" class="owl-carousel owl-theme">
 						<div class="item">
-							<img src="{{$coach->photo_path}}" alt="">
+							<img style="width: 750px;height: 445px;" src="{{$coach->photo_path}}" alt="">
 						</div>
-						<div class="item">
-							<img src="images/meal-detail/img-2.jpg" alt="">
-						</div>
-						<div class="item">
-							<img src="images/meal-detail/img-3.jpg" alt="">
-						</div>
-						<div class="item">
-							<img src="images/meal-detail/img-4.jpg" alt="">
-						</div>
+						@foreach ($coach->extendedImage as $extendedImage)
+							<div class="item">
+								<img style="width: 750px;height: 445px;" src="{{$extendedImage->image_path}}" alt="">
+							</div>
+						@endforeach
 											
 					</div>
 
 					<div id="sync2" class="owl-carousel owl-theme">
 						<div class="item">
-							<img src="{{$coach->photo_path}}" alt="">
+							<img style="width: 84px;height: 84px;" src="{{$coach->photo_path}}" alt="">
 						</div>
-						<div class="item">
-							<img src="images/meal-detail/thumb-2.jpg" alt="">
-						</div>
-						<div class="item">
-							<img src="images/meal-detail/thumb-3.jpg" alt="">
-						</div>
-						<div class="item">
-							<img src="images/meal-detail/thumb-4.jpg" alt="">
-						</div>
+						@foreach ($coach->extendedImage as $extendedImage)
+							<div class="item">
+								<img style="width: 84px;height: 84px;" src="{{$extendedImage->image_path}}" alt="">
+							</div>
+						@endforeach
 					</div>
 					
 					<div class="resto-meal-dt">
 						<div class="resto-detail">
 							<div class="resto-picy">
-								<a href="restaurant_detail.html"><img style="width: 64px;height: 64px;" src="{{$coach->organization->logo}}" alt=""></a>
+								<a href="organization/{{$coach->organization->id}}"><img style="width: 64px;height: 64px;" src="{{$coach->organization->logo}}" alt=""></a>
 							</div>
 							<div class="name-location mt-3">
-								<a href="restaurant_detail.html"><h1>{{$coach->organization->name}}</h1></a>
+								<a href="organization/{{$coach->organization->id}}"><h1>{{$coach->organization->name}}</h1></a>
 							</div>
 						</div>
 						<div class="right-side-btns">										
 							<div class="resto-review-stars">
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star"></i>
-								<i class="fas fa-star-half"></i>							
-								<span>4.5/5</span>									
+								@php
+									$star = round($coach->getAverageRatingStar(), 1);
+									$integerPart = (int)$star;
+									$decimalPart = $star - $integerPart;
+								@endphp
+								@if($star == 0) 
+									<i>Chưa có đánh giá</i>
+								@else 
+									@for($i = 0; $i < $integerPart; $i++ )
+										<i class="fas fa-star"></i>
+									@endfor
+									@if ($decimalPart > 0)
+										<i class="fas fa-star-half"></i>
+									@endif
+									<span>{{$star}}</span>
+								@endif
 							</div>
 						</div>
 					</div>
 					<div class="all-tabs">
 						<ul class="nav nav-tabs" role="tablist">
 						<li class ="nav-item" role="presentation">
-							<a href="#reviews" class="nav-link" aria-controls="reviews" role="tab" data-toggle="tab">03 Reviews</a>
+							<a  href="#reviews"class="nav-link" aria-controls="reviews" role="tab" data-toggle="tab">{{count($coach->rating)}} Đánh giá</a>
+						</li>
+						<li class ="nav-item" role="presentation">
+							<a href="#map" class="nav-link" aria-controls="map" role="tab" data-toggle="tab">Bản đồ</a>
 						</li>
 						</ul>
+						
 						<div class="tab-content">
-							<div class="tab-pane active" role="tabpanel" id="comments">
-								<div class="comment-post">
-									<div class="post-items">										
-										<div class="img-dp">
-											<i class="fas fa-user"></i>
-										</div>
-										<form>
-											<input type="text" class="post-input" name="post" placeholder="Write a comment">
-											<input class="submit-btn btn-link" type="submit" value="Post Comment">
-										</form>
-									</div>
-								</div>
-								<div class="main-pagination">
-									<nav aria-label="Page navigation example">
-									  <ul class="pagination">
-										<li class="page-item">
-										  <a class="page-link" href="#" aria-label="Previous">
-											<i class="fas fa-chevron-left"></i>
-										  </a>
-										</li>
-										<li class="page-item"><a class="page-link active" href="#">1</a></li>
-										<li class="page-item"><a class="page-link" href="#">2</a></li>
-										<li class="page-item">
-										  <a class="page-link" href="#" aria-label="Next">
-											<i class="fas fa-chevron-right"></i>
-										  </a>
-										</li>
-									  </ul>
-									</nav>
-								</div>
-							</div>
-							
-							<div class="tab-pane" role="tabpanel" id="reviews">
+							<div class="tab-pane active" role="tabpanel" id="reviews">
 								<div class="comment-post">
 									<div class="post-items">
 										<a href="my_dashboard.html">
@@ -129,61 +130,46 @@
 											<i class="fas fa-user"></i>
 										</div>									
 										</a>
-										<div class="select-rating">
-											<h4 class="m-1 font-weight-bold">Đánh giá của bạn :</h4>
-											<input class="rating"  value="0">
-										</div>
-										<form>
-											<input type="text" class="rating-input" name="post" placeholder="Thêm mô tả cho đánh giá của bạn để nhà xe cải tiến!">
+										<form action="coach/rating/{{$coach->id}}" method="POST" enctype="multipart/form-data">
+											@csrf
+											<div class="select-rating">
+												<h4 class="m-1 font-weight-bold">Đánh giá của bạn :</h4>
+												<input class="rating" name="star" value="0">
+											</div>
+											<input type="text" class="rating-input" name="comment" placeholder="Thêm mô tả cho đánh giá của bạn để nhà xe cải tiến!">
 											<input class="rating-btn btn-link" type="submit" value="Gửi đánh giá">
 										</form>
 									</div>
 								</div>
-								<div class="main-comments">
-									<div class="rating-1">
-										<div class="user-detail-heading">
-											<a href="user_profile_view.html"><img src="images/recipe-details/comment-5.png" alt=""></a>
-											<h4> Joy Cutler</h4><br>
-											<div class="rate-star">
-												<i class="fas fa-star"></i>
-												<i class="fas fa-star"></i>
-												<i class="fas fa-star"></i>
-												<i class="fas fa-star"></i>
-												<i class="far fa-star"></i>								
-												<span>4.5</span> 
+								@foreach ($ratings as $k=>$rating)
+									<div class="main-comments @if ($k == count($coach->rating) - 1)
+										bm-margin
+									@endif ">
+										<div class="rating-1">
+											<div class="user-detail-heading">
+												<a href="#"><img src="{{$rating->user->avatar}}" alt=""></a>
+												<h4> {{$rating->user->name}}</h4><br>
+												<div class="rate-star">
+													@for($i = 0; $i < $rating->star; $i++ )
+														<i class="fas fa-star"></i>
+													@endfor
+													<span>{{$rating->star}}</span>
+												</div>
 											</div>
-										</div>
-										<div class="reply-time">											
-											<p><i class="far fa-clock"></i>12 hours ago</p>
-										</div>
-										<div class="comment-description">
-											<p>Morbi hendrerit ipsum vel feugiat maximus. Duis posuere justo neque, sit amet efficitur quam aliquam non. Integer gravida ex quis lacinia consectetur.</p>
-										</div>
-									</div>									
-								</div>
-								<div class="main-comments bm-margin">
-									<div class="rating-1">
-										<div class="user-detail-heading">
-											<a href="user_profile_view.html"><img src="images/recipe-details/comment-3.png" alt=""></a>
-											<h4> Jass Singh</h4><br>
-											<div class="rate-star">
-												<i class="fas fa-star"></i>
-												<i class="fas fa-star"></i>
-												<i class="fas fa-star"></i>
-												<i class="fas fa-star"></i>
-												<i class="far fa-star"></i>								
-												<span>4.5</span> 
+											<div class="reply-time">											
+												<p><i class="far fa-clock"></i>{{$rating->created_at}}</p>
 											</div>
-										</div>
-										<div class="reply-time">											
-											<p><i class="far fa-clock"></i>12 hours ago</p>
-										</div>
-										<div class="comment-description">
-											<p>Morbi hendrerit ipsum vel feugiat maximus. Duis posuere justo neque, sit amet efficitur quam aliquam non. Integer gravida ex quis lacinia consectetur.</p>
-										</div>
-									</div>									
-								</div>
-								
+											<div class="comment-description">
+												<p>{{$rating->comment}}</p>
+											</div>
+										</div>									
+									</div>
+								@endforeach
+							</div>
+
+							<div class="tab-pane my-3" role="tabpanel" id="map">
+								<iframe width="750" height="550" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDDeMHPFeEYXtauiKCYrj8pzZ6ZrThd4no&origin={{$coach->specific_starting_location .", ". $coach->startingProvinceCity->name}}&destination={{$coach->specific_end_location .", ". $coach->endProvinceCity->name}}&waypoints={{$coach->route}}" allowfullscreen>
+								</iframe>
 							</div>
 						</div>					
 					</div>
@@ -191,7 +177,7 @@
 				<div class="col-lg-4 col-md-4">
 					<div class="right-side">
 						<div class="new-heading t-bottom">
-							<h1>{{$coach->name}}</h1>
+							<a href="coach/{{$coach->id}}"><h1>{{$coach->name}}</h1></a>
 						</div>
 						<div class="about-meal">
 							<h4> Lộ trình - Thời gian</h4>
@@ -218,10 +204,16 @@
 								</li>
 							</ul>
 						</div>
+						@if ($isFollow == 0)
+							<div class="order-now-check">
+								<button id="follow" class="on-btn btn-link" onclick="follow({{$coach->id}})">Theo dõi</button>
+							</div>
+						@elseif ($isFollow == 1) 
+							<div class="order-now-check">
+								<button id="follow" class="on-btn btn-link" onclick="unfollow({{$coach->id}})">Bỏ theo dõi</button>
+							</div>
+						@endif
 						
-						<div class="order-now-check">
-							<button class="on-btn btn-link" onclick="">Theo dõi</button>
-						</div>
 					</div>
 						
 				</div>
@@ -240,5 +232,42 @@
 		$(document).ready(function(){
  			$('.rating').rating();
 		});
+
+		function follow(coachID){
+			$.ajax({
+               type:'GET',
+               url:'/coach/follow/' + coachID,
+               success:function(data) {
+               		if (data.unauthenticated) {
+               			alert("Bạn cần đăng nhập để tiếp tục!")
+               		}
+               		if (data.isFollowing) {
+               			alert("Bạn đã đang theo dõi chuyến xe này!")
+               		}
+               		if (data.followSuccess) {
+                    	$("#follow").replaceWith('<button id="follow" class="on-btn btn-link" onclick="unfollow('+ coachID +')">Bỏ theo dõi</button>');
+               		}
+               }
+            });
+		}
+
+
+		function unfollow(coachID){
+			$.ajax({
+               type:'GET',
+               url:'/coach/unfollow/' + coachID,
+               success:function(data) {
+               		if (data.unauthenticated) {
+               			alert("Bạn cần đăng nhập để tiếp tục!")
+               		}
+               		if (data.notFollowing) {
+               			alert("Bạn chưa theo dõi chuyến xe này!")
+               		}
+               		if (data.unfollowSuccess) {
+                    	$("#follow").replaceWith('<button id="follow" class="on-btn btn-link" onclick="follow('+ coachID +')">Theo dõi</button>');
+               		}
+               }
+            });
+		}
 	</script>
 @endsection

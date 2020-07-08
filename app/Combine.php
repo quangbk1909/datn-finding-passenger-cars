@@ -12,4 +12,8 @@ class Combine extends Model
     public function driverSchedule(){
     	return $this->belongsTo('App\DriverSchedule','driver_schedule_id','id');
     }
+
+    public function userSchedule(){
+    	return $this->belongsTo('App\UserSchedule','user_schedule_id','id');
+    }
 }

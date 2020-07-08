@@ -41,11 +41,11 @@ class User extends Authenticatable
 
 
     public function car(){
-        return $this->hasMany('App\Car','user_id','id');
+        return $this->hasOne('App\Car','user_id','id');
     }
 
     public function organization(){
-        return $this->hasMany('App\Organization','owner','id');
+        return $this->hasMany('App\Organization','owner_id','id');
     }
 
     public function belongToOrganization(){
@@ -54,5 +54,13 @@ class User extends Authenticatable
 
     public function userSchedule(){
         return $this->hasMany('App\UserSchedule','user_id','id');
+    }
+
+    public function coachFollowed(){
+        return $this->belongsToMany('App\Coach','follow','user_id','coach_id');
+    }
+
+    public function notification(){
+        return $this->hasMany('App\Notification','user_id','id');
     }
 }
