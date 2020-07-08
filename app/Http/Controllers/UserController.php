@@ -819,7 +819,32 @@ class UserController extends Controller
         return redirect()->back()->with('success','Cập nhật thông tin xe thành công');
 
     }
-    
+
+
+    public function getNotifications() {
+        if (!Auth::check()) {
+            return response()->json(array('unauthenticated'=> true), 200);
+        }
+
+        $user = Auth::user();
+        $notifications = Notification::where('user_id','=',$user->id)->orderBy('created_at','desc')->limit(5)->get();
+        return response()->json(array('notifications' => $notifications), 200);
+    }
+
+    public function markNotificationsAsRead() {
+        if (!Auth::check()) {
+            return response()->json(array('unauthenticated'=> true), 200);
+        }
+
+        $user = Auth::user();
+        $notifications = Notification::where('user_id','=',$user->id)->get();
+        foreach ($notifications as $notification) {
+            $notification->readed = 1;
+            $notification->save();
+        }
+        return response()->json(array('success' => true), 200);
+    }
+     
 
 
 }

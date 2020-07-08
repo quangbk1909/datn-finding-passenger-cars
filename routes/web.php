@@ -113,3 +113,6 @@ Route::post('driver/request/{driver_schedule_id}','UserController@postRequestDri
 
 Route::post('user/request/{user_schedule_id}','UserController@postRequestUser');
 
+
+Route::get('notifications', 'UserController@getNotifications');
+Route::get('notifications/markAsRead','UserController@markNotificationsAsRead');

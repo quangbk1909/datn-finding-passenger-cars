@@ -107,7 +107,10 @@ class OrganizationController extends Controller
             if (!isset($staff)) {
                 abort(403);
             }
-        }
+        } else {
+            abort(403);
+        } 
+
     	$organization = Organization::find($id);
         $provinces = ProvinceCity::get();
         $owner = $organization->owner;

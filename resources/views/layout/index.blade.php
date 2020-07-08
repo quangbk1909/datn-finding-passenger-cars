@@ -75,6 +75,8 @@
 	<script src="vendor/bootstrap-select/bootstrap-select.min.js"></script>
 
 	@yield('script')
+
+	<script src="js/noti.js"></script>
 	
   </body>
 

@@ -51,9 +51,9 @@
 								</li>
 								@if (Auth::check())
 								<li class="icon-items nav-item dropdown">
-								<a class="nav-link dropdown-toggle-no-caret" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<i class="fas fa-bell"></i> 
-									{{-- <span  class="fa-stack fa-1x has-badge" data-count="3">
+								<a class="nav-link dropdown-toggle-no-caret" href="#" id="navbarDropdown2" onclick="markNotiAsRead()" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i id="noti-bell" class="fas fa-bell"></i> 
+									{{-- <span id="noti-bell" class="fa-stack fa-1x has-badge" data-count="3">
 									  <i class="fa fa-bell fa-stack-1x "></i>
 									</span> --}}
 
@@ -65,7 +65,7 @@
 												<li><div class="setting"><a href="#">Tất cả</a></div></li>
 											</ul>
 										</div>
-										<div class="notification-details">														
+										<div id="noti-list" class="notification-details">														
 											@if (!isset($notifications))
 												<div class="media">
 													<div  class="media-body ">
