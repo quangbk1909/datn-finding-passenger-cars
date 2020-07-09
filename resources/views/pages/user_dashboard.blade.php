@@ -605,9 +605,9 @@
 																	<td class="td-content">{{$combine->departure_time}}</td>
 																	<td class="td-content">{{$combine->note}}</td>
 																	<td>													
-																		<button class="invoice-btn btn-link" title="Cập nhật"><i class="far fa-file-alt"></i></button>
-																		<button class="invoice-btn btn-link" title="Hủy chuyến"><i class="far fa-file-alt"></i></button>
-
+														
+																		<a  onclick="return confirm('Bạn chắc chắn muốn hủy bỏ yêu cầu này?');" href="combine/reject/{{$combine->id}}"><button class="invoice-btn btn-link" title="Hủy bỏ"><i class="fas fa-trash-alt"></i></button></a>
+																		<a  onclick="return confirm('Xác nhận hoàn thành chuyến đi?');" href="combine/complete/{{$combine->id}}"><button class="invoice-btn btn-link" title="Hoàn thành"><i class="fas fa-check-square"></i></button></a>
 																	</td>																
 																</tr>
 															@endforeach
@@ -1031,6 +1031,7 @@
 																	<td class="td-content">{{$combine->note}}</td>
 																	<td>													
 																		<a href="combine/cancel/{{$combine->id}}" onclick="return confirm('Bạn chắc chắn muốn hủy chuyến đi này?');"><button class="invoice-btn btn-link" title="Hủy chuyến"><i class="far fa-trash-alt"></i></button></a>
+																		<a  onclick="return confirm('Xác nhận hoàn thành chuyến đi?');" href="combine/complete/{{$combine->id}}"><button class="invoice-btn btn-link" title="Hoàn thành"><i class="fas fa-check-square"></i></button></a>
 																	</td>																
 																</tr>
 															@endforeach

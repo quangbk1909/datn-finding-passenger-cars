@@ -427,7 +427,7 @@ class UserController extends Controller
         $combine->save();
 
         $notification = new Notification;
-        $notification->user_id = $driverSchedule->car->id;
+        $notification->user_id = $driverSchedule->car->user_id;
         $notification->content = "Bạn nhận được một yêu cầu đặt xe cho chuyến đi ". $driverSchedule->starting_province_city->name. " đến ". $driverSchedule->end_province_city->name. " từ hành khách ". $userSchedule->user->name;
         $notification->readed = 0;
         $notification->save();
@@ -540,6 +540,9 @@ class UserController extends Controller
 
         if (($user->id != $userSchedule->user_id) && ($user->id != $driverSchedule->car->user_id)) {
             abort(403);
+        }
+        if ($combine->status == 2) {
+            return redirect()->back()->with("warning","Chuyến đi đã hoàn thành. Không thể hủy bỏ");
         }
         $combine->delete();
 
