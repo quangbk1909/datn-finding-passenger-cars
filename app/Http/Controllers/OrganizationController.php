@@ -185,6 +185,15 @@ class OrganizationController extends Controller
         return redirect()->back()->with("success","Cập nhật thông tin xe khách thành công!");
     }
 
+    public function postUpdateStatusCoach(Request $request, $organizationID, $coachID){
+        $coach = Coach::find($coachID);
+        $coach->fixed_time = $request->delay_time;
+        $coach->number_current_passenger = $request->number_current_passenger;
+        $coach->save();
+
+        return redirect()->back()->with("success","Cập nhật trạng thái chuyến xe thành công!");
+    }
+
     public function postCreateCoach(Request $request, $id){
         request()->validate([
             'coach_image' => 'max:2000000'

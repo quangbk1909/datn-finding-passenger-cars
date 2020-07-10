@@ -50,6 +50,7 @@ Route::group(['prefix' => 'organization'], function() {
     Route::get('/{organizationID}/coach/update/{coachID}', 'OrganizationController@getUpdateCoach');
     Route::post('/{organizationID}/coach/update/{coachID}', 'OrganizationController@postUpdateCoach');
     Route::get('/{organizationID}/coach/update-status/{coachID}', 'OrganizationController@getUpdateStatusCoach');
+    Route::post('/{organizationID}/coach/update-status/{coachID}', 'OrganizationController@postUpdateStatusCoach');
     Route::post('/{id}/coach/create', 'OrganizationController@postCreateCoach');
     Route::post('/{id}/staff/add', 'OrganizationController@addNewStaff');
     Route::get('/{organization_id}/staff/delete/{staff_id}', 'OrganizationController@deleteStaff');

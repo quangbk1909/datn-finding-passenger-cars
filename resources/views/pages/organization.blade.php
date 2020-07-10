@@ -180,7 +180,7 @@
 								@if ($isStaff)
 									<div class="partner-bottombar">
 										<ul class="bottom-partner-links">
-											<li><a href="#" data-toggle="tooltip" data-placement="top" title="Call Now"><i class="fas fa-info-circle"></i>Cập nhật trạng thái</a></li>
+											<li><a href="/organization/{{$organization->id}}/coach/update-status/{{$coach->id}}" data-toggle="tooltip" data-placement="top" title="Call Now"><i class="fas fa-info-circle"></i>Cập nhật trạng thái</a></li>
 											<li class="line-lr"><a href="/organization/{{$organization->id}}/coach/update/{{$coach->id}}" data-toggle="tooltip" data-placement="top" title="Order Now"><i class="fas fa-edit"></i>Sửa thông tin</a></li>
 											<li><a href="organization/{{$organization->id}}/coach/delete/{{$coach->id}}" onclick="return confirm('Bạn chắc chắn muốn xóa chuyến xe khỏi hãng?');" data-toggle="tooltip" data-placement="top" title="View Menu"><i class="fas fa-trash-alt"></i>Xóa xe</a></li>
 										</ul>

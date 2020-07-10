@@ -111,7 +111,7 @@
 									
 								</div>
 								<div class="edit-profile">
-									<form action="organization/{{$organization->id}}/coach/update/{{$coach->id}}" method="POST" enctype="multipart/form-data">
+									<form action="organization/{{$organization->id}}/coach/update-status/{{$coach->id}}" method="POST" enctype="multipart/form-data">
 										@csrf
 										<div class="form-group">
 											<label for="number_current_passenger">Số khách hiện tại: </label>
